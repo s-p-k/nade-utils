@@ -22,17 +22,17 @@ main(int argc, char *argv[])
 	struct stat buf1, buf2;
 	FILE *f1, *f2;
 	int opt, c1, c2;
-        int hflag = 0;
+	int hflag = 0;
 
-        while ((opt = getopt(argc, argv, ":h")) != -1) {
-                switch (opt) {
-                case 'h':
-                        hflag = 1;
-                        break;
-                default:
-                        errx(1, "see %s -h", argv[0]);          
-                }
-        }
+	while ((opt = getopt(argc, argv, ":h")) != -1) {
+		switch (opt) {
+		case 'h':
+			hflag = 1;
+			break;
+		default:
+			errx(1, "see %s -h", argv[0]);          
+		}
+	}
 
 	if (hflag) {
 		usage(argv[0]);
@@ -50,7 +50,8 @@ main(int argc, char *argv[])
 	if (!f2)
 		err(1, "%s ", argv[2]);
 
-	if ((fstat(fileno(f1), &buf1) != 0) || (fstat(fileno(f2), &buf2) != 0))
+	/* if ((fstat(fileno(f1), &buf1) != 0) || (fstat(fileno(f2), &buf2) != 0)) */
+	if ((fstat(fileno(f1), &buf1) == -1) || (fstat(fileno(f2), &buf2) != 0))
 		err(1, "fstat file\n");
 	if (buf1.st_size != buf2.st_size) { /* files aren't identical */
 		fclose(f1);
